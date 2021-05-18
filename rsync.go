@@ -185,8 +185,11 @@ type RsyncOptions struct {
 	// ipv6
 	IPv6 bool
 
-	//out-format
+	// out-format
 	OutFormat bool
+
+	// PasswordFile read daemon-access password from FILE
+	PasswordFile string
 }
 
 // StdoutPipe returns a pipe that will be connected to the command's
@@ -538,6 +541,10 @@ func getArguments(options RsyncOptions) []string {
 
 	if options.OutFormat {
 		arguments = append(arguments, "--out-format=\"%n\"")
+	}
+
+	if options.PasswordFile != "" {
+		arguments = append(arguments, "--password-file", options.PasswordFile)
 	}
 
 	if len(options.Exclude) > 0 {
